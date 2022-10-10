@@ -1,8 +1,9 @@
 class Task {
-  constructor(title, desc, dueDate) {
+  constructor(title, desc, dueDate, priority) {
     this.title = title;
     this.desc = desc;
     this.dueDate = dueDate;
+    this.priority = priority;
     this.isDone = false;
   }
 
@@ -11,47 +12,52 @@ class Task {
   }
 }
 
-const list = (function() {
-  const arr = [];
+class List {
+  constructor(name) {
+    this.arr = [];
+    this.name = name;
+  }
 
-  const getList = () => arr;
-  const addTask = (task) => arr.push(task);
-  const removeTask = (task) => {
-    let taskIndex = arr.findIndex(item => item === task);
-    arr.splice(taskIndex, 1);
-  };
+  addTask(task) {
+    this.arr.push(task);
+  }
 
-  return {
-    getList,
-    addTask,
-    removeTask
-  };
-})();
+  removeTask(task) {
+    let taskIndex = this.arr.findIndex(item => item === task);
+    this.arr.splice(taskIndex, 1);
+  }
+}
+
+
+// Tests
+
+const list = new List('main');
 
 const task1 = new Task(
   'Cook', 
   'Cook the meal for tonight', 
-  'today'
+  'today',
+  1
 );
 const task2 = new Task(
   'Go running', 
   'Run around the neighborhood for 15min', 
-  'tommorow'
+  'tommorow',
+  3
 );
 const task3 = new Task(
   'Call Paul', 
   'Tell Paul about my project idea',
-  'tommorow'
+  'tommorow',
+  2
 );
-
-// Tests
 
 list.addTask(task1);
 list.addTask(task2);
 list.addTask(task3);
 
-console.log(list.getList());
+console.log(list.arr);
 
 task1.switchIsDone();
 list.removeTask(task2);
-console.log(list.getList());
+console.log(list.arr);
