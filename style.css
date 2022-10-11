@@ -25,6 +25,52 @@ body {
   box-sizing: border-box;
 }
 
+/* Sidebar styling */
+
+.sidebar {
+  height: 100%;
+  width: 300px;
+  padding: 60px 30px 30px;
+  color: white;
+  background-color: var(--main);
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 80px;
+}
+.sidebar-logo-text {
+  font-size: 25px;
+}
+
+.sidebar-section-heading {
+  font-size: 15px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 80%;
+}
+.sidebar-section ul {
+  list-style-type: none;
+}
+
+.sidebar-section li {
+  font-size: 20px;
+  opacity: 80%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sidebar-section li.active,
+.sidebar-section li:hover {
+  opacity: 1;
+  background-color: var(--main-light);
+}
+
 #form {
   width: 360px;
   padding: 1rem;
