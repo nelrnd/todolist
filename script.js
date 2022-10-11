@@ -67,5 +67,3 @@ form.addEventListener('submit', event => {
   event.preventDefault();
   DOMStuff.handleFormSubmit();
 });
-
-const list = new List('main');
