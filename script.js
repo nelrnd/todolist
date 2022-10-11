@@ -28,36 +28,44 @@ class List {
   }
 }
 
+const DOMStuff = (function() {
+  const getFormValues = () => {
+    let title = document.getElementById('title').value;
+    let desc = document.getElementById('desc').value;
+    let date = document.getElementById('date').value;
+    let priority = document.getElementById('priority').value;
 
-// Tests
+    return [title, desc, date, priority];
+  };
+
+  const clearFormValues = () => form.reset();
+
+  const handleFormSubmit = () => {
+    const formValues = getFormValues();
+    const task = new Task(...formValues);
+    list.addTask(task);
+
+    const htmlTask = createHtmlTask(task);
+    document.getElementById('list').append(htmlTask);
+    
+    clearFormValues();
+  };
+
+  const createHtmlTask = (task) => {
+    const elem = document.createElement('li');
+    elem.textContent = task.title;
+    return elem;
+  };
+
+  return {
+    handleFormSubmit
+  };
+})();
+
+const form = document.getElementById('form');
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  DOMStuff.handleFormSubmit();
+});
 
 const list = new List('main');
-
-const task1 = new Task(
-  'Cook', 
-  'Cook the meal for tonight', 
-  'today',
-  1
-);
-const task2 = new Task(
-  'Go running', 
-  'Run around the neighborhood for 15min', 
-  'tommorow',
-  3
-);
-const task3 = new Task(
-  'Call Paul', 
-  'Tell Paul about my project idea',
-  'tommorow',
-  2
-);
-
-list.addTask(task1);
-list.addTask(task2);
-list.addTask(task3);
-
-console.log(list.arr);
-
-task1.switchIsDone();
-list.removeTask(task2);
-console.log(list.arr);
