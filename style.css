@@ -197,6 +197,20 @@ body {
   background-color: var(--main-light);
 }
 
+.btn-secondary {
+  font-size: 15px;
+  color: var(--dark);
+  background-color: var(--grey);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover {
+  opacity: 0.8;
+}
+
 .btn-icon {
   height: 26px;
   width: 26px;
@@ -239,4 +253,62 @@ body {
 .btn-icon:hover .btn-icon-text {
   width: 100%;
   opacity: 1;
+}
+
+/* Form styling */
+
+#modal-wrapper {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  display: grid;
+  place-content: center;
+}
+
+.modal-content {
+  width: max(480px, 100%);
+  background-color: white;
+  padding: 30px;
+  border-radius: 5px;
+}
+
+.modal-content label {
+  font-size: 15px;
+  color: var(--dark);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.modal-content label .opt {
+  color: var(--copy);
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+  font-size: 20px;
+  padding: 12px;
+  width: 100%;
+  color: var(--dark);
+  background-color: white;
+  border: solid 2px var(--grey);
+  border-radius: 5px;
+}
+
+.modal-content textarea {
+  resize: none;
+}
+
+.modal-content .row + .row {
+  margin-top: 20px;
+}
+
+.modal-content .row:last-of-type {
+  margin-top: 30px;
+  display: flex;
+  justify-content: end;
+  gap: 12px;
 }
