@@ -68,3 +68,30 @@ form.addEventListener('submit', event => {
   event.preventDefault();
   DOMStuff.handleFormSubmit();
 });
+
+// Task expanding logic
+
+const taskTitles = document.querySelectorAll('.task-title-wrapper');
+taskTitles.forEach(elem => {
+  elem.addEventListener('click', function() {
+    const expand = this.parentElement.nextElementSibling;
+    if (expand.style.maxHeight) {
+      expand.style.maxHeight = null;
+    } else {
+      expand.style.maxHeight = expand.scrollHeight + 'px';
+    }
+  });
+});
+
+// Icon button text reveal on hover logic
+
+const expandButtons = document.querySelectorAll('.btn-icon');
+expandButtons.forEach(btn => {
+  const btnText = btn.lastElementChild;
+  btn.addEventListener('mouseover', function() {
+    btnText.style.maxWidth = btnText.scrollWidth + 'px';
+  });
+  btn.addEventListener('mouseout', function() {
+    btnText.style.maxWidth = null;
+  });
+});

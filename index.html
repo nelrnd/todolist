@@ -35,83 +35,75 @@
       <h3 class="day-heading">For today</h3>
 
       <div class="task">
-        <input type="checkbox" checked>
-        <p class="task-title">This is a relatively long task title spanning multiple lines</p>
-        <div class="btn-icon edit-btn">
-          <img src="./assets/edit-icon.svg" alt="edit icon">
-          <p class="btn-icon-text">Edit</p>
+        <div class="bar">
+          <input type="checkbox">
+          <div class="task-title-wrapper">
+            <p class="task-title">This is a task title</p>
+          </div>
+          <div class="btn-icon edit-btn">
+            <img src="./assets/edit-icon.svg" alt="edit icon">
+            <p class="btn-icon-text">Edit</p>
+          </div>
+          <div class="btn-icon del-btn">
+            <img src="./assets/delete-icon.svg" alt="delete icon">
+            <p class="btn-icon-text">Delete</p>
+          </div>
         </div>
-        <div class="btn-icon del-btn">
-          <img src="./assets/delete-icon.svg" alt="delete icon">
-          <p class="btn-icon-text">Delete</p>
-        </div>
-      </div>
-      <div class="task">
-        <input type="checkbox">
-        <p class="task-title">This is a relatively long task title</p>
-        <div class="btn-icon edit-btn">
-          <img src="./assets/edit-icon.svg" alt="edit icon">
-          <p class="btn-icon-text">Edit</p>
-        </div>
-        <div class="btn-icon del-btn">
-          <img src="./assets/delete-icon.svg" alt="delete icon">
-          <p class="btn-icon-text">Delete</p>
-        </div>
-      </div>
-      <div class="task">
-        <input type="checkbox">
-        <p class="task-title">This is a relatively long task title</p>
-        <div class="btn-icon edit-btn">
-          <img src="./assets/edit-icon.svg" alt="edit icon">
-          <p class="btn-icon-text">Edit</p>
-        </div>
-        <div class="btn-icon del-btn">
-          <img src="./assets/delete-icon.svg" alt="delete icon">
-          <p class="btn-icon-text">Delete</p>
+
+        <div class="expand">
+          <p class="priority">High Priority</p>
+          <p class="desc">This is the task description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt metus ut mi, dui in tristique et ut.</p>
         </div>
       </div>
 
-      <h3 class="day-heading">For tomorrow</h3>
+      <div class="task">
+        <div class="bar">
+          <input type="checkbox">
+          <div class="task-title-wrapper">
+            <p class="task-title">This is a task title</p>
+          </div>
+          <div class="btn-icon edit-btn">
+            <img src="./assets/edit-icon.svg" alt="edit icon">
+            <p class="btn-icon-text">Edit</p>
+          </div>
+          <div class="btn-icon del-btn">
+            <img src="./assets/delete-icon.svg" alt="delete icon">
+            <p class="btn-icon-text">Delete</p>
+          </div>
+        </div>
+
+        <div class="expand">
+          <p class="priority">High Priority</p>
+          <p class="desc">This is the task description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt metus ut mi, dui in tristique et ut.</p>
+        </div>
+      </div>
 
       <div class="task">
-        <input type="checkbox">
-        <p class="task-title">This is a relatively long task title spanning multiple lines</p>
-        <div class="btn-icon edit-btn">
-          <img src="./assets/edit-icon.svg" alt="edit icon">
-          <p class="btn-icon-text">Edit</p>
+        <div class="bar">
+          <input type="checkbox">
+          <div class="task-title-wrapper">
+            <p class="task-title">This is a task title</p>
+          </div>
+          <div class="btn-icon edit-btn">
+            <img src="./assets/edit-icon.svg" alt="edit icon">
+            <p class="btn-icon-text">Edit</p>
+          </div>
+          <div class="btn-icon del-btn">
+            <img src="./assets/delete-icon.svg" alt="delete icon">
+            <p class="btn-icon-text">Delete</p>
+          </div>
         </div>
-        <div class="btn-icon del-btn">
-          <img src="./assets/delete-icon.svg" alt="delete icon">
-          <p class="btn-icon-text">Delete</p>
-        </div>
-      </div>
-      <div class="task">
-        <input type="checkbox">
-        <p class="task-title">This is a relatively long task title</p>
-        <div class="btn-icon edit-btn">
-          <img src="./assets/edit-icon.svg" alt="edit icon">
-          <p class="btn-icon-text">Edit</p>
-        </div>
-        <div class="btn-icon del-btn">
-          <img src="./assets/delete-icon.svg" alt="delete icon">
-          <p class="btn-icon-text">Delete</p>
-        </div>
-      </div>
-      <div class="task">
-        <input type="checkbox">
-        <p class="task-title">This is a relatively long task title</p>
-        <div class="btn-icon edit-btn">
-          <img src="./assets/edit-icon.svg" alt="edit icon">
-          <p class="btn-icon-text">Edit</p>
-        </div>
-        <div class="btn-icon del-btn">
-          <img src="./assets/delete-icon.svg" alt="delete icon">
-          <p class="btn-icon-text">Delete</p>
+
+        <div class="expand">
+          <p class="priority">High Priority</p>
+          <p class="desc">This is the task description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt metus ut mi, dui in tristique et ut.</p>
         </div>
       </div>
     </div>
 
-    <div id="modal-wrapper">
+
+
+    <div id="modal-wrapper" class="hidden">
       <form action="" method="" id="form" class="modal-content">
         <div class="row">
           <label for="title">TITLE</label>

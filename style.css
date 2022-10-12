@@ -109,8 +109,10 @@ body {
   border-radius: 5px;
   padding: 16px;
   margin-bottom: 20px;
-  position: relative;
+}
 
+.task .bar {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -139,7 +141,16 @@ body {
   top: 1px;
 }
 
+.task-title-wrapper {
+  flex: 1;
+  overflow: hidden;
+
+  cursor: pointer;
+}
+
 .task-title {
+  width: min-content;
+  max-width: 100%;
   font-size: 20px;
   color: var(--dark);
   position: relative;
@@ -150,10 +161,10 @@ body {
 
   transition: all 0.3s;
 }
-.task input[type="checkbox"]:checked + .task-title {
+.task input[type="checkbox"]:checked + .task-title-wrapper > .task-title {
   color: var(--copy);
 }
-.task input[type="checkbox"] + .task-title::after {
+.task input[type="checkbox"] + .task-title-wrapper > .task-title::after {
   content: "";
   height: 1.5px;
   width: 0%;
@@ -165,7 +176,7 @@ body {
 
   transition: all 0.3s;
 }
-.task input[type="checkbox"]:checked + .task-title::after {
+.task input[type="checkbox"]:checked + .task-title-wrapper > .task-title::after {
   content: "";
   height: 1.5px;
   width: 100%;
@@ -176,8 +187,24 @@ body {
   top: 50%;
 }
 
-.task .btn-icon:first-of-type {
-  margin-left: auto;
+.task .expand {
+  margin-left: calc(50px - 14px);
+  max-height: 0;
+  overflow: hidden;
+
+  transition: max-height 0.4s;
+}
+.task .expand .priority {
+  padding-top: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--copy);
+}
+.task .expand .desc {
+  padding-top: 10px;
+  font-size: 15px;
+  color: var(--copy);
 }
 
 /* Buttons styling */
@@ -213,7 +240,6 @@ body {
 
 .btn-icon {
   height: 26px;
-  width: 26px;
   padding: 6px;
   color: white;
   background-color: var(--grey);
@@ -225,37 +251,34 @@ body {
   align-items: center;
   gap: 0;
 
-  transition: all 0.5s;
+  transition: all 0.4s;
 }
 .btn-icon:hover {
   background-color: var(--main);
   gap: 6px;
 }
-.edit-btn:hover {
-  width: 64px;
-}
-.del-btn:hover {
-  width: 82px;
-}
 .btn-icon img {
   filter: brightness(100%);
-  transition: all 0.5s;
+  transition: all 0.4s;
 }
 .btn-icon:hover img {
   filter: brightness(200%);
 }
 .btn-icon-text {
-  width: 0;
   opacity: 0;
+  max-width: 0;
   overflow: hidden;
-  transition: all 0.5s;
+  transition: all 0.4s;
 }
 .btn-icon:hover .btn-icon-text {
-  width: 100%;
   opacity: 1;
 }
 
 /* Form styling */
+
+.hidden {
+  display: none !important;
+}
 
 #modal-wrapper {
   position: absolute;
