@@ -12,10 +12,14 @@ class Task {
   }
 }
 
-class List {
+class Folder {
   constructor(name) {
     this.arr = [];
     this.name = name;
+  }
+
+  getTasks() {
+    return this.arr;
   }
 
   addTask(task) {
@@ -28,70 +32,153 @@ class List {
   }
 }
 
+const folders = (function() {
+  const arr = [];
+  let currentFolder;
+
+  const getFolders = () => arr;
+
+  const getCurrentFolder = () => currentFolder;
+  const setCurrentFolder = (folder) => currentFolder = folder;
+
+  const addFolder = (name) => {
+    const folder = new Folder(name);
+    arr.push(folder);
+  };
+
+  const removeFolder = (folder) => {
+    let folderIndex = arr.findIndex(item => item === folder);
+    arr.splice(folderIndex, 1);
+  };
+
+  return {
+    getFolders,
+    getCurrentFolder,
+    setCurrentFolder,
+    addFolder,
+    removeFolder
+  };
+})();
+
 const DOMStuff = (function() {
-  const getFormValues = () => {
-    let title = document.getElementById('title').value;
-    let desc = document.getElementById('desc').value;
-    let date = document.getElementById('date').value;
-    let priority = document.getElementById('priority').value;
+  const createTaskElement = (task) => {
+    const elem = document.createElement('div');
+    elem.classList.add('task');
 
-    return [title, desc, date, priority];
-  };
+    const bar = document.createElement('div');
+    bar.classList.add('bar');
 
-  const clearFormValues = () => form.reset();
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
 
-  const handleFormSubmit = () => {
-    const formValues = getFormValues();
-    const task = new Task(...formValues);
-    list.addTask(task);
+    const titleWrapper = document.createElement('div');
+    titleWrapper.classList.add('task-title-wrapper');
+    titleWrapper.addEventListener('click', function() {
+      if (expandSection.style.maxHeight) {
+        expandSection.style.maxHeight = null;
+      } else {
+        expandSection.style.maxHeight = expandSection.scrollHeight + 'px';
+      }
+    });
 
-    const htmlTask = createHtmlTask(task);
-    document.getElementById('list').append(htmlTask);
-    
-    clearFormValues();
-  };
+    const title = document.createElement('p');
+    title.classList.add('task-title');
+    title.textContent = task.title;
+    titleWrapper.append(title);
 
-  const createHtmlTask = (task) => {
-    const elem = document.createElement('li');
-    elem.textContent = task.title;
+    const editBtn = document.createElement('button');
+    editBtn.classList.add('btn-icon');
+    const editBtnIcon = document.createElement('img');
+    editBtnIcon.src = './assets/edit-icon.svg';
+    editBtnIcon.alt = 'Edit icon';
+    const editBtnText = document.createElement('p');
+    editBtnText.classList.add('btn-icon-text');
+    editBtnText.textContent = 'Edit';
+    editBtn.append(editBtnIcon, editBtnText);
+    editBtn.addEventListener('mouseover', function() {
+      editBtnText.style.maxWidth = editBtnText.scrollWidth + 'px';
+    });
+    editBtn.addEventListener('mouseout', function() {
+      editBtnText.style.maxWidth = null;
+    });
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.classList.add('btn-icon');
+    const deleteBtnIcon = document.createElement('img');
+    deleteBtnIcon.src = './assets/delete-icon.svg';
+    deleteBtnIcon.alt = 'Delete icon';
+    const deleteBtnText = document.createElement('p');
+    deleteBtnText.classList.add('btn-icon-text');
+    deleteBtnText.textContent = 'Delete';
+    deleteBtn.append(deleteBtnIcon, deleteBtnText);
+    deleteBtn.addEventListener('mouseover', function() {
+      deleteBtnText.style.maxWidth = deleteBtnText.scrollWidth + 'px';
+    });
+    deleteBtn.addEventListener('mouseout', function() {
+      deleteBtnText.style.maxWidth = null;
+    });
+
+    bar.append(checkbox, titleWrapper, editBtn, deleteBtn);
+
+    const expandSection = document.createElement('div');
+    expandSection.classList.add('expand');
+
+    const priority = document.createElement('p');
+    priority.classList.add('priority');
+    priority.textContent = task.priority + ' priority';
+
+    const desc = document.createElement('p');
+    desc.classList.add('desc');
+    desc.textContent = task.desc;
+
+    expandSection.append(priority, desc);
+
+    elem.append(bar, expandSection);
+
     return elem;
   };
 
   return {
-    handleFormSubmit
+    createTaskElement
   };
 })();
 
+function openModal(modal) {
+  const modalWrapper = document.getElementById('modal-wrapper');
+  modalWrapper.classList.remove('hidden');
+  document.getElementById(`${modal}-modal`).classList.remove('hidden');
 
-const form = document.getElementById('form');
-form.addEventListener('submit', event => {
-  event.preventDefault();
-  DOMStuff.handleFormSubmit();
-});
-
-// Task expanding logic
-
-const taskTitles = document.querySelectorAll('.task-title-wrapper');
-taskTitles.forEach(elem => {
-  elem.addEventListener('click', function() {
-    const expand = this.parentElement.nextElementSibling;
-    if (expand.style.maxHeight) {
-      expand.style.maxHeight = null;
-    } else {
-      expand.style.maxHeight = expand.scrollHeight + 'px';
+  modalWrapper.onclick = (event) => {
+    if (event.target === modalWrapper) {
+      closeModal(modal);
     }
-  });
-});
+  };
+}
 
-// Icon button text reveal on hover logic
+function closeModal(modal) {
+  const modalWrapper = document.getElementById('modal-wrapper');
+  modalWrapper.classList.add('hidden');
+  document.getElementById(`${modal}-modal`).classList.add('hidden');
 
-const expandButtons = document.querySelectorAll('.btn-icon');
-expandButtons.forEach(btn => {
-  const btnText = btn.lastElementChild;
-  btn.addEventListener('mouseover', function() {
-    btnText.style.maxWidth = btnText.scrollWidth + 'px';
-  });
-  btn.addEventListener('mouseout', function() {
-    btnText.style.maxWidth = null;
-  });
-});
+  modalWrapper.onclick = null;
+}
+
+
+
+const task = new Task(
+  'Go shopping',
+  'Buy a new pant and new backpack for school',
+  'today',
+  'high'
+);
+
+folders.addFolder('Everyday Life');
+
+folders.setCurrentFolder(folders.getFolders()[0]);
+
+folders.getCurrentFolder().addTask(task);
+
+document.querySelector('.main').append(DOMStuff.createTaskElement(task));
+
+
+

@@ -241,8 +241,10 @@ body {
 .btn-icon {
   height: 26px;
   padding: 6px;
+  font-size: 15px;
   color: white;
   background-color: var(--grey);
+  border: none;
   border-radius: 4px;
   cursor: pointer;
 
@@ -258,6 +260,8 @@ body {
   gap: 6px;
 }
 .btn-icon img {
+  width: 15px;
+  height: 15px;
   filter: brightness(100%);
   transition: all 0.4s;
 }
@@ -291,27 +295,27 @@ body {
   place-content: center;
 }
 
-.modal-content {
+.modal {
   width: max(480px, 100%);
   background-color: white;
   padding: 30px;
   border-radius: 5px;
 }
 
-.modal-content label {
+.modal label {
   font-size: 15px;
   color: var(--dark);
   display: block;
   margin-bottom: 6px;
 }
 
-.modal-content label .opt {
+.modal label .opt {
   color: var(--copy);
 }
 
-.modal-content input,
-.modal-content textarea,
-.modal-content select {
+.modal input,
+.modal textarea,
+.modal select {
   font-size: 20px;
   padding: 12px;
   width: 100%;
@@ -321,15 +325,15 @@ body {
   border-radius: 5px;
 }
 
-.modal-content textarea {
+.modal textarea {
   resize: none;
 }
 
-.modal-content .row + .row {
+.modal .row + .row {
   margin-top: 20px;
 }
 
-.modal-content .row:last-of-type {
+.modal .row:last-of-type {
   margin-top: 30px;
   display: flex;
   justify-content: end;
