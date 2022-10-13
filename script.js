@@ -24,6 +24,7 @@ class Folder {
 
   addTask(task) {
     this.arr.push(task);
+    DOMStuff.addTask(task);
   }
 
   removeTask(task) {
@@ -39,13 +40,18 @@ const folders = (function() {
   const getFolders = () => arr;
 
   const getCurrentFolder = () => currentFolder;
-  const setCurrentFolder = (folder) => currentFolder = folder;
+  const setCurrentFolder = (folder) => {
+    currentFolder = folder
+    DOMStuff.setCurrentFolder(folder);
+    DOMStuff.generateFolderPage(folder);
+  };
 
   const addFolder = (name) => {
     const folder = new Folder(name);
     arr.push(folder);
 
     DOMStuff.addFolderTab(folder);
+    setCurrentFolder(folder);
   };
 
   const removeFolder = (folder) => {
@@ -145,13 +151,48 @@ const DOMStuff = (function() {
     const tab = document.createElement('li');
     tab.textContent = folder.name;
 
+    tab.addEventListener('click', () => folders.setCurrentFolder(folder));
+
     const tabs = document.getElementById('folder-tabs');
     tabs.insertBefore(tab, tabs.lastElementChild);
   };
 
+  const setCurrentFolder = (folder) => {
+    document.querySelectorAll('#folder-tabs li').forEach(li => {
+      if (li.classList.contains('current')) {
+        li.classList.remove('current');
+      }
+      if (li.textContent == folder.name) {
+        li.classList.add('current');
+      }
+    });
+  };
+
+  const generateFolderPage = (folder) => {
+    document.getElementById('current-folder-name').textContent = folder.name;
+
+    const taskList = document.getElementById('tasks');
+    taskList.innerHTML = '';
+
+    if (folder.getTasks().length > 0) {
+      folder.getTasks().forEach(task => {
+        addTask(task);
+      });
+    }
+  };
+
+  const addTask = (task) => {
+    const taskElem = createTaskElement(task);
+    const taskList = document.getElementById('tasks');
+    taskList.append(taskElem);
+  };
+
   return {
     createTaskElement,
-    addFolderTab
+    addFolderTab,
+    setCurrentFolder,
+    generateFolderPage,
+    addTask
   };
 })();
 
@@ -164,6 +205,12 @@ const modals = (function() {
 
     modalWrapper.classList.remove('hidden');
     modalElem.classList.remove('hidden');
+
+    if (modal == 'folder') {
+      document.getElementById('folder-name').focus();
+    } else if (modal == 'task') {
+      document.getElementById('title').focus();
+    }
 
     modalWrapper.onclick = (event) => {
       if (event.target === modalWrapper) {

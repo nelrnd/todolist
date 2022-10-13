@@ -67,7 +67,7 @@ body {
   cursor: pointer;
   transition: all 0.2s;
 }
-.sidebar-section li.active,
+.sidebar-section li.current,
 .sidebar-section li:hover {
   opacity: 1;
   background-color: var(--main-light);
