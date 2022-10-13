@@ -44,6 +44,7 @@ const folders = (function() {
   const addFolder = (name) => {
     const folder = new Folder(name);
     arr.push(folder);
+    DOMStuff.addFolderTab(folder);
   };
 
   const removeFolder = (folder) => {
@@ -143,42 +144,45 @@ const DOMStuff = (function() {
   };
 })();
 
-function openModal(modal) {
-  const modalWrapper = document.getElementById('modal-wrapper');
-  modalWrapper.classList.remove('hidden');
-  document.getElementById(`${modal}-modal`).classList.remove('hidden');
 
-  modalWrapper.onclick = (event) => {
-    if (event.target === modalWrapper) {
-      closeModal(modal);
-    }
+
+const modals = (function() {
+  const openModal = (modal) => {
+    const modalWrapper = document.getElementById('modal-wrapper');
+    const modalElem = document.getElementById(`${modal}-modal`);
+
+    modalWrapper.classList.remove('hidden');
+    modalElem.classList.remove('hidden');
+
+    modalWrapper.onclick = (event) => {
+      if (event.target === modalWrapper) {
+        closeModal(modal);
+      }
+    };
   };
-}
 
-function closeModal(modal) {
-  const modalWrapper = document.getElementById('modal-wrapper');
-  modalWrapper.classList.add('hidden');
-  document.getElementById(`${modal}-modal`).classList.add('hidden');
+  const closeModal = (modal) => {
+    const modalWrapper = document.getElementById('modal-wrapper');
+    const modalElem = document.getElementById(`${modal}-modal`);
 
-  modalWrapper.onclick = null;
-}
+    modalWrapper.classList.add('hidden');
+    modalElem.classList.add('hidden');
 
+    // Reset modal inputs
+    modalElem.reset();
 
+    modalWrapper.onclick = null;
+  };
 
-const task = new Task(
-  'Go shopping',
-  'Buy a new pant and new backpack for school',
-  'today',
-  'high'
-);
+  const newFolderBtn = document.getElementById('new-folder-btn');
+  newFolderBtn.addEventListener('click', () => openModal('folder'));
 
-folders.addFolder('Everyday Life');
+  const newTaskBtn = document.getElementById('new-task-btn');
+  newTaskBtn.addEventListener('click', () => openModal('task'));
 
-folders.setCurrentFolder(folders.getFolders()[0]);
+  const folderModalCancelBtn = document.querySelector('#folder-modal .cancel');
+  folderModalCancelBtn.addEventListener('click', () => closeModal('folder'));
 
-folders.getCurrentFolder().addTask(task);
-
-document.querySelector('.main').append(DOMStuff.createTaskElement(task));
-
-
-
+  const taskModalCancelBtn = document.querySelector('#task-modal .cancel');
+  taskModalCancelBtn.addEventListener('click', () => closeModal('task'));
+})();
