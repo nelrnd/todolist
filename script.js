@@ -79,6 +79,7 @@ const DOMStuff = (function() {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     if (task.isDone) checkbox.checked = true;
+    checkbox.addEventListener('change', () => task.switchIsDone());
 
     const titleWrapper = document.createElement('div');
     titleWrapper.classList.add('task-title-wrapper');
@@ -110,6 +111,7 @@ const DOMStuff = (function() {
     editBtn.addEventListener('mouseout', function() {
       editBtnText.style.maxWidth = null;
     });
+    editBtn.addEventListener('click', () => modals.editTaskModal(task));
 
     const deleteBtn = document.createElement('button');
     deleteBtn.classList.add('btn-icon');
@@ -279,3 +281,6 @@ const formHandlers = (function() {
   const taskForm = document.querySelector('form#task-modal');
   taskForm.addEventListener('submit', taskFormHandler);
 })();
+
+folders.addFolder('Default');
+folders.getCurrentFolder().addTask(new Task('Make Coffee'));
