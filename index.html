@@ -16,7 +16,7 @@
 
       <div class="sidebar-section">
         <h2 class="sidebar-section-heading">Folders</h2>
-        <ul>
+        <ul id="folder-tabs">
           <li id="new-folder-btn">+ New folder</li>
         </ul>
       </div>
@@ -24,9 +24,14 @@
 
     <div class="main">
       <div class="main-top-bar">
-        <h1 id="current-folder-name">Everyday life</h1>
+        <h1 id="current-folder-name"></h1>
         <button id="new-task-btn" class="btn-main">New Task</button>
       </div>
+
+      <div id="tasks"></div>
+
+      <!--
+      TASK TEMPLATE
 
       <h3 class="day-heading">For today</h3>
 
@@ -51,53 +56,8 @@
           <p class="desc">This is the task description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt metus ut mi, dui in tristique et ut.</p>
         </div>
       </div>
-
-      <div class="task">
-        <div class="bar">
-          <input type="checkbox">
-          <div class="task-title-wrapper">
-            <p class="task-title">This is a task title</p>
-          </div>
-          <div class="btn-icon">
-            <img src="./assets/edit-icon.svg" alt="edit icon">
-            <p class="btn-icon-text">Edit</p>
-          </div>
-          <div class="btn-icon">
-            <img src="./assets/delete-icon.svg" alt="delete icon">
-            <p class="btn-icon-text">Delete</p>
-          </div>
-        </div>
-
-        <div class="expand">
-          <p class="priority">High Priority</p>
-          <p class="desc">This is the task description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt metus ut mi, dui in tristique et ut.</p>
-        </div>
-      </div>
-
-      <div class="task">
-        <div class="bar">
-          <input type="checkbox">
-          <div class="task-title-wrapper">
-            <p class="task-title">This is a task title</p>
-          </div>
-          <div class="btn-icon">
-            <img src="./assets/edit-icon.svg" alt="edit icon">
-            <p class="btn-icon-text">Edit</p>
-          </div>
-          <div class="btn-icon">
-            <img src="./assets/delete-icon.svg" alt="delete icon">
-            <p class="btn-icon-text">Delete</p>
-          </div>
-        </div>
-
-        <div class="expand">
-          <p class="priority">High Priority</p>
-          <p class="desc">This is the task description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt metus ut mi, dui in tristique et ut.</p>
-        </div>
-      </div>
+      -->
     </div>
-
-
 
     <div id="modal-wrapper" class="hidden">
       <form action="" method="" id="task-modal" class="modal hidden">
@@ -119,7 +79,7 @@
           <label for="priority">PRIORITY</label>
           <select id="priority">
             <option value="high">High</option>
-            <option value="mid">Medium</option>
+            <option value="medium">Medium</option>
             <option value="low">Low</option>
           </select>
         </div>

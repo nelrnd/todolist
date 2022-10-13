@@ -44,6 +44,7 @@ const folders = (function() {
   const addFolder = (name) => {
     const folder = new Folder(name);
     arr.push(folder);
+
     DOMStuff.addFolderTab(folder);
   };
 
@@ -71,6 +72,7 @@ const DOMStuff = (function() {
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
+    if (task.isDone) checkbox.checked = true;
 
     const titleWrapper = document.createElement('div');
     titleWrapper.classList.add('task-title-wrapper');
@@ -139,12 +141,21 @@ const DOMStuff = (function() {
     return elem;
   };
 
+  const addFolderTab = (folder) => {
+    const tab = document.createElement('li');
+    tab.textContent = folder.name;
+
+    const tabs = document.getElementById('folder-tabs');
+    tabs.insertBefore(tab, tabs.lastElementChild);
+  };
+
   return {
-    createTaskElement
+    createTaskElement,
+    addFolderTab
   };
 })();
 
-
+// Modals Module
 
 const modals = (function() {
   const openModal = (modal) => {
@@ -168,7 +179,6 @@ const modals = (function() {
     modalWrapper.classList.add('hidden');
     modalElem.classList.add('hidden');
 
-    // Reset modal inputs
     modalElem.reset();
 
     modalWrapper.onclick = null;
@@ -185,4 +195,40 @@ const modals = (function() {
 
   const taskModalCancelBtn = document.querySelector('#task-modal .cancel');
   taskModalCancelBtn.addEventListener('click', () => closeModal('task'));
+
+  return {closeModal};
+})();
+
+// Form Handlers Module
+
+const formHandlers = (function() {
+  const folderFormHandler = (event) => {
+    event.preventDefault();
+
+    const folderName = document.getElementById('folder-name').value;
+    folders.addFolder(folderName);
+
+    modals.closeModal('folder');
+  };
+
+  const taskFormHandler = (event) => {
+    event.preventDefault();
+
+    // Gather inputs values
+    const title = document.getElementById('title').value;
+    const desc = document.getElementById('desc').value;
+    const dueDate = document.getElementById('duedate').value;
+    const priority = document.getElementById('priority').value;
+
+    const task = new Task(title, desc, dueDate, priority);
+    folders.getCurrentFolder().addTask(task);
+
+    modals.closeModal('task');
+  };
+
+  const folderForm = document.querySelector('form#folder-modal');
+  folderForm.addEventListener('submit', folderFormHandler);
+
+  const taskForm = document.querySelector('form#task-modal');
+  taskForm.addEventListener('submit', taskFormHandler);
 })();
