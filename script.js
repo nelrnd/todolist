@@ -111,7 +111,7 @@ const DOMStuff = (function() {
     editBtn.addEventListener('mouseout', function() {
       editBtnText.style.maxWidth = null;
     });
-    editBtn.addEventListener('click', () => modals.editTaskModal(task));
+    editBtn.addEventListener('click', () => modals.openTaskModal(task));
 
     const deleteBtn = document.createElement('button');
     deleteBtn.classList.add('btn-icon');
@@ -127,6 +127,10 @@ const DOMStuff = (function() {
     });
     deleteBtn.addEventListener('mouseout', function() {
       deleteBtnText.style.maxWidth = null;
+    });
+    deleteBtn.addEventListener('click', () => {
+      folders.getCurrentFolder().removeTask(task);
+      removeTask(elem);
     });
 
     bar.append(checkbox, titleWrapper, editBtn, deleteBtn);
@@ -189,6 +193,10 @@ const DOMStuff = (function() {
     taskList.append(taskElem);
   };
 
+  const removeTask = (elem) => {
+    elem.remove();
+  };
+
   return {
     createTaskElement,
     addFolderTab,
@@ -233,11 +241,40 @@ const modals = (function() {
     modalWrapper.onclick = null;
   };
 
+  const openTaskModal = (task) => {
+    const taskForm = document.querySelector('form#task-modal');
+
+    if (task) {
+      document.querySelector('#task-modal .btn-main').textContent =
+      'Save';
+
+      // Populate input fields with task data
+      document.getElementById('title').value = task.title;
+      document.getElementById('desc').value = task.desc || '';
+      document.getElementById('duedate').value = task.dueDate || '';
+      document.getElementById('priority').value = task.priority || '';
+
+      taskForm.onsubmit = function(event) {
+        event.preventDefault();
+        formHandlers.taskFormHandler(task);
+      };
+    } else {
+      document.querySelector('#task-modal .btn-main').textContent =
+      'Add task';
+
+      taskForm.onsubmit = function(event) {
+        event.preventDefault();
+        formHandlers.taskFormHandler();
+      };
+    }
+    openModal('task');
+  };
+
   const newFolderBtn = document.getElementById('new-folder-btn');
   newFolderBtn.addEventListener('click', () => openModal('folder'));
 
   const newTaskBtn = document.getElementById('new-task-btn');
-  newTaskBtn.addEventListener('click', () => openModal('task'));
+  newTaskBtn.addEventListener('click', () => openTaskModal());
 
   const folderModalCancelBtn = document.querySelector('#folder-modal .cancel');
   folderModalCancelBtn.addEventListener('click', () => closeModal('folder'));
@@ -245,7 +282,7 @@ const modals = (function() {
   const taskModalCancelBtn = document.querySelector('#task-modal .cancel');
   taskModalCancelBtn.addEventListener('click', () => closeModal('task'));
 
-  return {closeModal};
+  return {closeModal, openTaskModal};
 })();
 
 // Form Handlers Module
@@ -260,17 +297,24 @@ const formHandlers = (function() {
     modals.closeModal('folder');
   };
 
-  const taskFormHandler = (event) => {
-    event.preventDefault();
-
+  const taskFormHandler = (task) => {
     // Gather inputs values
     const title = document.getElementById('title').value;
     const desc = document.getElementById('desc').value;
     const dueDate = document.getElementById('duedate').value;
     const priority = document.getElementById('priority').value;
 
-    const task = new Task(title, desc, dueDate, priority);
-    folders.getCurrentFolder().addTask(task);
+    if (task) {
+      task.title = title;
+      task.desc = desc;
+      task.dueDate = dueDate;
+      task.priority = priority;
+
+      DOMStuff.generateFolderPage(folders.getCurrentFolder());
+    } else {
+      const task = new Task(title, desc, dueDate, priority);
+      folders.getCurrentFolder().addTask(task);
+    }
 
     modals.closeModal('task');
   };
@@ -278,9 +322,18 @@ const formHandlers = (function() {
   const folderForm = document.querySelector('form#folder-modal');
   folderForm.addEventListener('submit', folderFormHandler);
 
-  const taskForm = document.querySelector('form#task-modal');
-  taskForm.addEventListener('submit', taskFormHandler);
+  return {
+    taskFormHandler
+  }
 })();
 
 folders.addFolder('Default');
-folders.getCurrentFolder().addTask(new Task('Make Coffee'));
+folders.getCurrentFolder().addTask(new Task('Make Coffee', '', '', 'medium'));
+
+window.addEventListener('load', () => {
+  // Set minimum date input value to today
+  const mindate = new Date().toISOString().split('T')[0];
+  document.getElementById('duedate').min = mindate;
+
+  console.log(mindate);
+});
