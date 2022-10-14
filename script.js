@@ -68,7 +68,6 @@ const folders = (function() {
         DOMStuff.emptyPage();
       }
     };
-
   };
 
   return {
@@ -229,11 +228,6 @@ const DOMStuff = (function() {
     tasks.id = 'tasks';
 
     document.querySelector('.main').append(tasks);
-
-    document.getElementById('current-folder-name').textContent = folder.name;
-
-    const taskList = document.getElementById('tasks');
-    taskList.innerHTML = '';
 
     if (folder.getTasks().length > 0) {
       folder.getTasks().forEach(task => {
