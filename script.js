@@ -41,9 +41,11 @@ const folders = (function() {
 
   const getCurrentFolder = () => currentFolder;
   const setCurrentFolder = (folder) => {
-    currentFolder = folder
-    DOMStuff.setCurrentFolder(folder);
-    DOMStuff.generateFolderPage(folder);
+    currentFolder = folder;
+    if (folder) {
+      DOMStuff.setCurrentFolder(folder);
+      DOMStuff.generateFolderPage(folder);
+    }
   };
 
   const addFolder = (name) => {
@@ -57,7 +59,16 @@ const folders = (function() {
   const removeFolder = (folder) => {
     let folderIndex = arr.findIndex(item => item === folder);
     arr.splice(folderIndex, 1);
-    if (currentFolder == folder) currentFolder = null;
+    if (currentFolder == folder) {
+      if (getFolders().length > 0) {
+        setCurrentFolder(getFolders()[0]);
+        DOMStuff.generateFolderPage(getCurrentFolder());
+      } else {
+        setCurrentFolder(null);
+        DOMStuff.emptyPage();
+      }
+    };
+
   };
 
   return {
@@ -207,9 +218,18 @@ const DOMStuff = (function() {
       }
     });
     folders.getFolders().forEach(folder => addFolderTab(folder));
+    setCurrentFolder(folders.getCurrentFolder());
   };
 
   const generateFolderPage = (folder) => {
+    document.querySelector('.main').innerHTML = '';
+    createTopBar(folder);
+
+    const tasks = document.createElement('div');
+    tasks.id = 'tasks';
+
+    document.querySelector('.main').append(tasks);
+
     document.getElementById('current-folder-name').textContent = folder.name;
 
     const taskList = document.getElementById('tasks');
@@ -232,13 +252,39 @@ const DOMStuff = (function() {
     elem.remove();
   };
 
+  const emptyPage = () => {
+    document.querySelector('.main').innerHTML = null;
+  };
+
+  const createTopBar = (folder) => {
+    const topBar = document.createElement('div');
+    topBar.classList.add('main-top-bar');
+
+    const heading = document.createElement('h1');
+    heading.id = 'current-folder-name';
+    if (folder) heading.textContent = folder.name;
+    topBar.append(heading);
+
+    if (folder) {
+      const addTaskBtn = document.createElement('button');
+      addTaskBtn.id = 'new-task-btn';
+      addTaskBtn.classList.add('btn-main');
+      addTaskBtn.textContent = 'New Task';
+      addTaskBtn.addEventListener('click', () => modals.openTaskModal());
+      topBar.append(addTaskBtn);
+    }
+
+    document.querySelector('.main').append(topBar);
+  };
+
   return {
     createTaskElement,
     addFolderTab,
     setCurrentFolder,
     generateFolderPage,
     generateFolderTabs,
-    addTask
+    addTask,
+    emptyPage
   };
 })();
 
@@ -279,6 +325,9 @@ const modals = (function() {
 
   const openTaskModal = (task) => {
     const taskForm = document.querySelector('form#task-modal');
+
+    const mindate = new Date().toISOString().split('T')[0];
+    document.getElementById('duedate').value = mindate;
 
     if (task) {
       taskForm.querySelector('.btn-main').textContent = 'Save';
@@ -352,6 +401,8 @@ const formHandlers = (function() {
       folder.name = folderName;
 
       DOMStuff.generateFolderTabs();
+      
+      DOMStuff.generateFolderPage(folders.getCurrentFolder());
     } else {
       folders.addFolder(folderName);
     }
