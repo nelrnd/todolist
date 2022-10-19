@@ -52,6 +52,9 @@ button {
 }
 
 .task-checkbox {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
   appearance: none;
   width: 24px;
   height: 24px;
@@ -299,6 +302,8 @@ button {
   background-color: white;
   border: solid 2px var(--light-grey);
   border-radius: 5px;
+
+  box-shadow: none !important;
 }
 
 .modal input:focus,
@@ -459,6 +464,17 @@ button {
 
   .task {
     padding: 12px;
+  }
+
+  .task-top {
+    gap: 8px;
+  }
+
+  .task .task-title::after {
+    top: -2px;
+  }
+  .task.extended .task-title::after {
+    bottom: -3px;
   }
 
   #toggle-menu-button {
