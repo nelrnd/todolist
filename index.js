@@ -79,6 +79,16 @@ window.addEventListener('load', function() {
       Object.setPrototypeOf(folder, Folder.prototype);
       folder.getTasks().forEach(task => {
         Object.setPrototypeOf(task, Task.prototype);
+
+        let todayDate = convertDateToISO(new Date());
+
+        if (task.dueDate < todayDate) {
+          if (task.isDone) {
+            folder.removeTask(task);
+          } else {
+            task.dueDate = todayDate;
+          }
+        }
       });
       folders.addFolder(folder)
     });

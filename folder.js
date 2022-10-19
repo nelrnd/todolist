@@ -1,4 +1,5 @@
 import { drawPageContent } from "./dom.js";
+import { convertDateToISO } from "./task.js";
 
 export default class Folder {
   constructor(name) {
@@ -11,6 +12,12 @@ export default class Folder {
   }
 
   addTask(task) {
+    let todayDate = convertDateToISO(new Date());
+
+    if (task.dueDate < todayDate) {
+      task.dueDate = todayDate;
+    }
+
     this.arr.push(task);
     drawPageContent();
   }
