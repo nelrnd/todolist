@@ -2,65 +2,50 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <title>To-Do List</title>
     <link rel="stylesheet" href="style.css">
+    <script src="./index.js" type="module"></script>
   </head>
   <body>
     <div class="sidebar">
       <div class="sidebar-logo">
-        <img src="./assets/logo.svg" alt="todolist logo">
+        <img src="../assets/logo.svg" alt="todolist logo">
         <h1 class="sidebar-logo-text">To-Do List</h1>
       </div>
-
+    
+      <div class="sidebar-section">
+        <h2 class="sidebar-section-heading">Home</h2>
+        <ul id="home-tabs">
+          <li id="all-tasks" class="tab icon-tab">
+            <img src="../assets/inbox.svg" alt="all tasks icon">
+            All Tasks
+          </li>
+          <li id="today-tasks" class="tab icon-tab">
+            <img src="../assets/today.svg" alt="today icon">
+            Today
+          </li>
+          <li id="week-tasks" class="tab icon-tab">
+            <img src="../assets/this-week.svg" alt="this week icon">
+            Next 7 days
+          </li>
+        </ul>
+      </div>
+    
       <div class="sidebar-section">
         <h2 class="sidebar-section-heading">Folders</h2>
-        <ul id="folder-tabs">
-          <li id="new-folder-btn">+ New folder</li>
-        </ul>
+        <ul id="folder-tabs"></ul>
+        <button id="new-folder-btn" class="tab">+ New Folder</button>
       </div>
     </div>
 
     <div class="main">
-      <div class="main-top-bar">
-        <h1 id="current-folder-name"></h1>
-        <button id="new-task-btn" class="btn-main">New Task</button>
-      </div>
-
-      <div id="tasks"></div>
+      <div id="task-list"></div>
     </div>
 
     <div id="modal-wrapper" class="hidden">
-      <form action="" method="" id="task-modal" class="modal hidden">
-        <div class="row">
-          <label for="title">TITLE</label>
-          <input type="text" id="title" placeholder="I want to..." required>
-        </div>
-        <div class="row">
-          <label for="desc">DESCRIPTION
-            <span class="opt">(optional)</span>
-          </label>
-          <textarea id="desc"></textarea>
-        </div>
-        <div class="row">
-          <label for="duedate">DUE DATE</label>
-          <input type="date" id="duedate">
-        </div>
-        <div class="row">
-          <label for="priority">PRIORITY</label>
-          <select id="priority">
-            <option value="high" selected>High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
-          </select>
-        </div>
-        <div class="row">
-          <button type="button" class="btn-secondary cancel">Cancel</button>
-          <button type="submit" class="btn-main">Add Task</button>
-        </div>
-      </form>
-
       <form action="" method="" id="folder-modal" class="modal hidden">
         <div class="row">        
           <label for="folder-name">FOLDER NAME</label>
@@ -71,8 +56,35 @@
           <button type="submit" class="btn-main">Create Folder</button>
         </div>
       </form>
-    </div>
 
-    <script src="script.js"></script>
+      <form action="" method="" id="task-modal" class="modal hidden">
+        <div class="row">
+          <label for="task-title">TITLE</label>
+          <input type="text" id="task-title" placeholder="I want to..." required>
+        </div>
+        <div class="row">
+          <label for="task-desc">DESCRIPTION
+            <span class="opt">(optional)</span>
+          </label>
+          <textarea id="task-desc"></textarea>
+        </div>
+        <div class="row">
+          <label for="task-duedate">DUE DATE</label>
+          <input type="date" id="task-duedate" required>
+        </div>
+        <div class="row">
+          <label for="task-priority">PRIORITY</label>
+          <select id="task-priority">
+            <option value="high" selected>High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div class="row">
+          <button type="button" class="btn-secondary cancel">Cancel</button>
+          <button type="submit" class="btn-main">Add Task</button>
+        </div>
+      </form>
+    </div>
   </body>
 </html>
