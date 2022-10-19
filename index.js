@@ -74,7 +74,6 @@ window.addEventListener('load', function() {
   if (localStorage.folders) {
 
     const storedFolders = JSON.parse(localStorage.folders);
-    console.log(storedFolders);
     storedFolders.forEach(folder => {
       Object.setPrototypeOf(folder, Folder.prototype);
       folder.getTasks().forEach(task => {
