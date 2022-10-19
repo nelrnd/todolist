@@ -117,7 +117,7 @@ window.addEventListener('load', function() {
       'Build a cabin in the forest',
       '',
       '2022-10-25',
-      'mid'
+      'medium'
     ));
   }
 });
