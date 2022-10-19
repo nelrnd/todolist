@@ -1,6 +1,6 @@
 import Task, { convertDateToISO } from './task.js';
 import Folder from './folder.js';
-import { addFolderTab, removeFolderTab, setActiveTab } from './dom.js';
+import { addFolderTab, drawPageContent, removeFolderTab, setActiveTab } from './dom.js';
 import './modal.js';
 
 export const folders = (function() {
@@ -52,6 +52,7 @@ export const folders = (function() {
   }
 
   return {
+    list,
     getActiveFolder, 
     setActiveFolder,
     getAllFolders,
@@ -67,27 +68,54 @@ window.addEventListener('load', () => {
   document.querySelector('input#task-duedate').min = todayDate;
 });
 
-// For demonstration purpose
+// Storage
 
-const folder1 = new Folder('Work');
-const folder2 = new Folder('Life');
+window.addEventListener('load', function() {
+  if (localStorage.folders) {
 
-folders.addFolder(folder1);
-folders.addFolder(folder2);
+    const storedFolders = JSON.parse(localStorage.folders);
+    console.log(storedFolders);
+    storedFolders.forEach(folder => {
+      Object.setPrototypeOf(folder, Folder.prototype);
+      folder.getTasks().forEach(task => {
+        Object.setPrototypeOf(task, Task.prototype);
+      });
+      folders.addFolder(folder)
+    });
+    folders.setActiveFolder(folders.getAllFolders()[0]);
+    setActiveTab(folders.getAllFolders()[0].tab);
+    drawPageContent();
+  } else {
+    // For demonstration purpose
 
-folders.setActiveFolder(folder1);
-setActiveTab(folder1.tab);
+    const folder1 = new Folder('Work');
+    const folder2 = new Folder('Life');
 
-folder1.addTask(new Task(
-  'Finish to-do list project',
-  'Make to-do list app fully functional',
-  convertDateToISO(new Date()),
-  'high'
-));
+    folders.addFolder(folder1);
+    folders.addFolder(folder2);
 
-folder2.addTask(new Task(
-  'Build a cabin in the forest',
-  '',
-  '2022-10-25',
-  'mid'
-));
+    folders.setActiveFolder(folder1);
+    setActiveTab(folder1.tab);
+
+    folder1.addTask(new Task(
+      'Finish to-do list project',
+      'Make to-do list app fully functional',
+      convertDateToISO(new Date()),
+      'high'
+    ));
+
+    folder2.addTask(new Task(
+      'Build a cabin in the forest',
+      '',
+      '2022-10-25',
+      'mid'
+    ));
+  }
+});
+
+window.addEventListener('beforeunload', function() {
+  if (folders.getAllFolders()) {
+    localStorage.folders = JSON.stringify(folders.getAllFolders());
+  }
+  return null;
+});
