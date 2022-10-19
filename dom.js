@@ -256,3 +256,25 @@ function createPageTopBar() {
 
   return topBar;
 }
+
+function toggleMenu() {
+  const sidebar = document.querySelector('.sidebar');
+  sidebar.classList.toggle('open');
+
+  if (sidebar.classList.contains('open')) {
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', closeMenu);
+    });
+  } else {
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.removeEventListener('click', closeMenu);
+    });
+  }
+}
+
+function closeMenu() {
+  const sidebar = document.querySelector('.sidebar');
+  sidebar.classList.remove('open');
+}
+
+document.querySelector('#toggle-menu-button').onclick = toggleMenu;

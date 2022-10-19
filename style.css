@@ -14,6 +14,8 @@ html {
 
 body {
   height: 100%;
+  width: 100vw;
+  overflow-x: hidden;
   background-color: var(--light-grey);
 
   display: grid;
@@ -184,6 +186,10 @@ button {
   font-size: 25px;
 }
 
+#toggle-menu-button {
+  display: none;
+}
+
 .sidebar-section {
   margin-bottom: 50px;
 }
@@ -255,6 +261,7 @@ button {
 
 #modal-wrapper {
   position: absolute;
+  z-index: 100;
   width: 100%;
   top: 0;
   bottom: 0;
@@ -348,6 +355,7 @@ button {
 
 .main {
   padding: 80px 60px 0;
+  overflow-x: hidden;
 }
 
 .top-bar {
@@ -372,4 +380,128 @@ button {
 
 .task + .day-heading {
   margin-top: 50px;
+}
+
+@media screen and (max-width: 800px) {
+  body {
+    display: block;
+  }
+
+  .top-bar .page-heading {
+    font-size: 24px;
+  }
+  .sidebar-logo-text {
+    font-size: 20px;
+  }
+  .day-heading,
+  .task-title,
+  .modal input,
+  .modal textarea,
+  .modal select {
+  font-size: 16px;
+  }
+  .sidebar-section-heading,
+  .task-extend,
+  .modal label {
+    font-size: 12px;
+  }
+
+  .sidebar {
+    height: auto;
+    overflow-y: auto;
+    width: 100%;
+    padding: 0;
+  }
+
+  .mobile-top-bar {
+    height: 70px;
+    padding: 0 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    background-color: var(--main);
+  }
+  
+  .sidebar-logo {
+    gap: 12px;
+    margin-bottom: 0;
+  }
+
+  .sidebar-logo img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .mobile-menu {
+    display: none;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+  
+  .sidebar-section-heading {
+    margin-bottom: 12px;
+  }
+
+  .main {
+    padding: calc(70px + 16px) 16px 0;
+  }
+
+  .modal {
+    width: 100%;
+  }
+
+  .task {
+    padding: 12px;
+  }
+
+  #toggle-menu-button {
+    display: block;
+    width: 32px;
+    height: 32px;
+    background-image: url('./assets/menu.svg');
+    cursor: pointer;
+  }
+
+  .sidebar.open #toggle-menu-button {
+    background-image: url('./assets/close.svg');
+  }
+
+  .mobile-menu {
+    display: block;
+    position: fixed;
+    z-index: 20;
+    left: -100%;
+    width: 83vw;
+    top: 70px;
+    bottom: 0;
+    padding: 32px 16px;
+    background-color: var(--main);
+    transition: all 0.4s;
+  }
+
+  .sidebar.open .mobile-menu {
+    left: 0;
+  }
+
+  .top-bar {
+    margin-bottom: 20px;
+  }
+
+  .day-heading {
+    margin-bottom: 16px;
+  }
+  
+  .task + .day-heading {
+    margin-top: 32px;
+  }
+}
+
+@media (hover: none) {
+  .sidebar-section .tab .tab-btn {
+    opacity: 1;
+  }
 }

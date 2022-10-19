@@ -123,8 +123,10 @@ window.addEventListener('load', function() {
 });
 
 window.addEventListener('beforeunload', function() {
-  if (folders.getAllFolders()) {
+  if (folders.getAllFolders().length > 0) {
     localStorage.folders = JSON.stringify(folders.getAllFolders());
+  } else {
+    localStorage.removeItem('folders');
   }
   return null;
 });

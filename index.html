@@ -11,33 +11,40 @@
   </head>
   <body>
     <div class="sidebar">
-      <div class="sidebar-logo">
-        <img src="./assets/logo.svg" alt="todolist logo">
-        <h1 class="sidebar-logo-text">To-Do List</h1>
+      <div class="mobile-top-bar">
+        <div class="sidebar-logo">
+          <img src="./assets/logo.svg" alt="todolist logo">
+          <h1 class="sidebar-logo-text">To-Do List</h1>
+        </div>
+
+        <button id="toggle-menu-button">
+        </button>
       </div>
     
-      <div class="sidebar-section">
-        <h2 class="sidebar-section-heading">Home</h2>
-        <ul id="home-tabs">
-          <li id="all-tasks" class="tab icon-tab">
-            <img src="./assets/inbox.svg" alt="all tasks icon">
-            All Tasks
-          </li>
-          <li id="today-tasks" class="tab icon-tab">
-            <img src="./assets/today.svg" alt="today icon">
-            Today
-          </li>
-          <li id="week-tasks" class="tab icon-tab">
-            <img src="./assets/this-week.svg" alt="this week icon">
-            Next 7 days
-          </li>
-        </ul>
-      </div>
+      <div class="mobile-menu">
+        <div class="sidebar-section">
+          <h2 class="sidebar-section-heading">Home</h2>
+          <ul id="home-tabs">
+            <li id="all-tasks" class="tab icon-tab">
+              <img src="./assets/inbox.svg" alt="all tasks icon">
+              All Tasks
+            </li>
+            <li id="today-tasks" class="tab icon-tab">
+              <img src="./assets/today.svg" alt="today icon">
+              Today
+            </li>
+            <li id="week-tasks" class="tab icon-tab">
+              <img src="./assets/this-week.svg" alt="this week icon">
+              Next 7 days
+            </li>
+          </ul>
+        </div>
     
-      <div class="sidebar-section">
-        <h2 class="sidebar-section-heading">Folders</h2>
-        <ul id="folder-tabs"></ul>
-        <button id="new-folder-btn" class="tab">+ New Folder</button>
+        <div class="sidebar-section">
+          <h2 class="sidebar-section-heading">Folders</h2>
+          <ul id="folder-tabs"></ul>
+          <button id="new-folder-btn" class="tab">+ New Folder</button>
+        </div>
       </div>
     </div>
 
