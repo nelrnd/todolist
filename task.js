@@ -13,7 +13,7 @@ export default class Task {
 }
 
 export function sortTaskByDueDate(tasks) {
-  return tasks.sort((a,b) => a.dueDate > b.dueDate ? 1 : -1);
+  return tasks.sort((a,b) => a.dueDate == b.dueDate ? 0 : a.dueDate > b.dueDate ? 1 : -1);
 }
 
 export function formatTaskDueDate(task) {
