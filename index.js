@@ -81,7 +81,7 @@ setActiveTab(folder1.tab);
 folder1.addTask(new Task(
   'Finish to-do list project',
   'Make to-do list app fully functional',
-  '2022-10-19',
+  convertDateToISO(new Date()),
   'high'
 ));
 
