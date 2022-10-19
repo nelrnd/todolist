@@ -395,6 +395,7 @@ button {
   }
   .day-heading,
   .task-title,
+  .sidebar-section .tab,
   .modal input,
   .modal textarea,
   .modal select {
@@ -404,6 +405,11 @@ button {
   .task-extend,
   .modal label {
     font-size: 12px;
+  }
+
+  #home-tabs .tab img {
+    width: 20px;
+    height: 20px;
   }
 
   .sidebar {
@@ -420,6 +426,7 @@ button {
     justify-content: space-between;
     align-items: center;
     position: fixed;
+    z-index: 100;
     width: 100%;
     background-color: var(--main);
   }
@@ -432,10 +439,6 @@ button {
   .sidebar-logo img {
     width: 32px;
     height: 32px;
-  }
-
-  .mobile-menu {
-    display: none;
   }
   
   .sidebar-section {
@@ -473,6 +476,7 @@ button {
   .mobile-menu {
     display: block;
     position: fixed;
+    overflow-y: auto;
     z-index: 20;
     left: -100%;
     width: 83vw;
