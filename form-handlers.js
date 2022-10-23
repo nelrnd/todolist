@@ -1,6 +1,6 @@
 import Task from './task.js';
 import Folder from './folder.js';
-import { folders } from './index.js';
+import { folders, updateStorage } from './index.js';
 import { closeModal } from './modal.js';
 import { drawPageContent } from './dom.js';
 
@@ -13,6 +13,7 @@ export function newFolderFormHandler(e) {
   const folder = new Folder(folderName);
 
   folders.addFolder(folder);
+  updateStorage();
 
   closeModal('folder');
 }
@@ -29,6 +30,7 @@ export function newTaskFormHandler(e) {
   const task = new Task(taskTitle, taskDesc, taskDueDate, taskPriority);
   const activeFolder = folders.getActiveFolder();
   activeFolder.addTask(task);
+  updateStorage();
 
   closeModal('task');
 }
@@ -42,6 +44,7 @@ export function editFolderFormHandler(e, folder) {
   if (folders.getActiveFolder() == folder) {
     document.querySelector('.page-heading').textContent = folder.name;
   }
+  updateStorage();
 
   closeModal('folder');
 }
@@ -55,6 +58,7 @@ export function editTaskFormHandler(e, task) {
   task.priority = document.querySelector('#task-priority').value;
 
   drawPageContent();
+  updateStorage();
 
   closeModal('task');
 }

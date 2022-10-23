@@ -1,9 +1,14 @@
 import Task, { convertDateToISO } from './task.js';
 import Folder from './folder.js';
-import { addFolderTab, drawPageContent, removeFolderTab, setActiveTab } from './dom.js';
+import {
+  addFolderTab,
+  drawPageContent,
+  removeFolderTab,
+  setActiveTab,
+} from './dom.js';
 import './modal.js';
 
-export const folders = (function() {
+export const folders = (function () {
   const list = [];
 
   let activeFolder = null;
@@ -22,8 +27,8 @@ export const folders = (function() {
 
   function getAllTasks() {
     const allTasks = [];
-    list.forEach(folder => {
-      folder.getTasks().forEach(task => {
+    list.forEach((folder) => {
+      folder.getTasks().forEach((task) => {
         allTasks.push(task);
       });
     });
@@ -36,7 +41,7 @@ export const folders = (function() {
   }
 
   function removeFolder(folder) {
-    let folderIndex = list.findIndex(item => item == folder);
+    let folderIndex = list.findIndex((item) => item == folder);
     list.splice(folderIndex, 1);
     removeFolderTab(folder);
 
@@ -49,16 +54,17 @@ export const folders = (function() {
         setActiveTab(document.querySelector('#home-tabs .tab:first-of-type'));
       }
     }
+    updateStorage();
   }
 
   return {
     list,
-    getActiveFolder, 
+    getActiveFolder,
     setActiveFolder,
     getAllFolders,
-    getAllTasks, 
-    addFolder, 
-    removeFolder
+    getAllTasks,
+    addFolder,
+    removeFolder,
   };
 })();
 
@@ -70,33 +76,35 @@ window.addEventListener('load', () => {
 
 // Storage
 
-window.addEventListener('load', function() {
+export function updateStorage() {
+  if (folders.getAllFolders().length > 0) {
+    localStorage.removeItem('folders');
+    localStorage.folders = JSON.stringify(folders.getAllFolders());
+  } else {
+    localStorage.removeItem('folders');
+  }
+}
+
+function loadStorage() {
   if (localStorage.folders) {
-
     const storedFolders = JSON.parse(localStorage.folders);
-    storedFolders.forEach(folder => {
+    storedFolders.forEach((folder) => {
       Object.setPrototypeOf(folder, Folder.prototype);
-      folder.getTasks().forEach(task => {
+      folder.getTasks().forEach((task) => {
         Object.setPrototypeOf(task, Task.prototype);
-
         let todayDate = convertDateToISO(new Date());
-
-        if (task.dueDate < todayDate) {
-          if (task.isDone) {
-            folder.removeTask(task);
-          } else {
-            task.dueDate = todayDate;
-          }
+        if (task.dueDate < todayDate && task.isDone) {
+          folder.removeTask(task);
+        } else if (task.dueDate < todayDate && !task.isDone) {
+          task.dueDate = todayDate;
         }
       });
-      folders.addFolder(folder)
+      folders.addFolder(folder);
     });
     folders.setActiveFolder(folders.getAllFolders()[0]);
     setActiveTab(folders.getAllFolders()[0].tab);
     drawPageContent();
   } else {
-    // For demonstration purpose
-
     const folder1 = new Folder('Work');
     const folder2 = new Folder('Life');
 
@@ -106,27 +114,19 @@ window.addEventListener('load', function() {
     folders.setActiveFolder(folder1);
     setActiveTab(folder1.tab);
 
-    folder1.addTask(new Task(
-      'Finish to-do list project',
-      'Make to-do list app fully functional',
-      convertDateToISO(new Date()),
-      'high'
-    ));
+    folder1.addTask(
+      new Task(
+        'Finish to-do list project',
+        'Make to-do list app fully functional',
+        convertDateToISO(new Date()),
+        'high'
+      )
+    );
 
-    folder2.addTask(new Task(
-      'Build a cabin in the forest',
-      '',
-      '2022-10-25',
-      'medium'
-    ));
+    folder2.addTask(
+      new Task('Build a cabin in the forest', '', '2022-10-25', 'medium')
+    );
   }
-});
+}
 
-window.addEventListener('beforeunload', function() {
-  if (folders.getAllFolders().length > 0) {
-    localStorage.folders = JSON.stringify(folders.getAllFolders());
-  } else {
-    localStorage.removeItem('folders');
-  }
-  return null;
-});
+window.addEventListener('load', loadStorage);

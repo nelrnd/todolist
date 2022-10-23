@@ -1,5 +1,6 @@
-import { drawPageContent } from "./dom.js";
-import { convertDateToISO } from "./task.js";
+import { drawPageContent } from './dom.js';
+import { updateStorage } from './index.js';
+import { convertDateToISO } from './task.js';
 
 export default class Folder {
   constructor(name) {
@@ -23,8 +24,9 @@ export default class Folder {
   }
 
   removeTask(task) {
-    let taskIndex = this.arr.findIndex(item => item == task);
+    let taskIndex = this.arr.findIndex((item) => item == task);
     this.arr.splice(taskIndex, 1);
     drawPageContent();
+    updateStorage();
   }
 }
