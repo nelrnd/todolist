@@ -1,12 +1,12 @@
 import { updateStorage } from './index.js';
 
 export default class Task {
-  constructor(title, desc, dueDate, priority) {
+  constructor(title, desc, dueDate, priority, isDone) {
     this.title = title;
     this.description = desc;
     this.dueDate = dueDate;
     this.priority = priority;
-    this.isDone = false;
+    this.isDone = isDone || false;
   }
 
   switchIsDone() {
@@ -15,10 +15,24 @@ export default class Task {
   }
 }
 
-export function sortTaskByDueDate(tasks) {
-  return tasks.sort((a, b) =>
-    a.dueDate == b.dueDate ? 0 : a.dueDate > b.dueDate ? 1 : -1
-  );
+export function sortTasks(tasks) {
+  return tasks.sort((a, b) => {
+    if (a.dueDate !== b.dueDate) {
+      if (a.dueDate > b.dueDate) {
+        return 1;
+      } else {
+        return -1;
+      }
+    } else {
+      if (a.priority > b.priority) {
+        return -1;
+      } else if (a.priority < b.priority) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+  });
 }
 
 export function formatTaskDueDate(task) {

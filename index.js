@@ -119,12 +119,13 @@ function loadStorage() {
         'Finish to-do list project',
         'Make to-do list app fully functional',
         convertDateToISO(new Date()),
-        'high'
+        '2',
+        true
       )
     );
 
     folder2.addTask(
-      new Task('Build a cabin in the forest', '', '2022-10-25', 'medium')
+      new Task('Build a cabin in the forest', '', '2022-10-25', '1')
     );
   }
 }

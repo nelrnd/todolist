@@ -1,6 +1,6 @@
 import { setupModal } from './modal.js';
 import { folders } from './index.js';
-import { convertDateToISO, formatTaskDueDate, sortTaskByDueDate } from './task.js';
+import { convertDateToISO, formatTaskDueDate, sortTasks } from './task.js';
 
 export function createTaskElem(task) {
   const taskElem = document.createElement('div');
@@ -22,8 +22,8 @@ export function createTaskElem(task) {
   checkbox.classList.add('task-checkbox');
   titleWrapper.classList.add('task-title-wrapper');
   title.classList.add('task-title');
-  priority.classList.add('task-priority');
   description.classList.add('task-description');
+  priority.classList.add('task-priority');
   editButton.classList.add('task-btn');
   removeButton.classList.add('task-btn');
 
@@ -31,8 +31,24 @@ export function createTaskElem(task) {
   if (task.isDone) checkbox.checked = 'checked';
 
   title.textContent = task.title;
-  priority.textContent = task.priority + ' priority';
   description.textContent = task.description;
+
+  switch (task.priority) {
+    case '2':
+      priority.textContent = 'High Priority';
+      priority.classList.add('high');
+      break;
+    case '1':
+      priority.textContent = 'Medium Priority';
+      priority.classList.add('medium');
+      break;
+    case '0':
+      priority.textContent = 'Low Priority';
+      priority.classList.add('low');
+      break;
+    default:
+      break;
+  }
 
   editIcon.src = './assets/edit-icon.svg';
   editIcon.alt = 'pencil';
@@ -49,14 +65,16 @@ export function createTaskElem(task) {
     if (folders.getActiveFolder()) {
       folders.getActiveFolder().removeTask(task);
     } else {
-      let folder = folders.getAllFolders().find(folder => folder.getTasks().includes(task));
+      let folder = folders
+        .getAllFolders()
+        .find((folder) => folder.getTasks().includes(task));
       folder.removeTask(task);
     }
-  }
+  };
 
   titleWrapper.append(title);
   top.append(checkbox, titleWrapper, editButton, removeButton);
-  extend.append(priority, description);
+  extend.append(description, priority);
   taskElem.append(top, extend);
 
   task.elem = taskElem;
@@ -112,11 +130,11 @@ function createFolderTab(folder) {
     folders.setActiveFolder(folder);
     setActiveTab(folder.tab);
   };
-  editButton.onclick = e => {
+  editButton.onclick = (e) => {
     e.stopPropagation();
     setupModal('folder', folder);
   };
-  removeButton.onclick = e => {
+  removeButton.onclick = (e) => {
     e.stopPropagation();
     folders.removeFolder(folder);
   };
@@ -139,7 +157,7 @@ export function removeFolderTab(folder) {
 }
 
 export function setActiveTab(tab) {
-  document.querySelectorAll('.tab').forEach(tab => {
+  document.querySelectorAll('.tab').forEach((tab) => {
     if (tab.classList.contains('active')) {
       tab.classList.remove('active');
     }
@@ -150,10 +168,10 @@ export function setActiveTab(tab) {
   drawPageContent();
 }
 
-document.querySelectorAll('#home-tabs .tab').forEach(tab => {
+document.querySelectorAll('#home-tabs .tab').forEach((tab) => {
   tab.onclick = () => {
     folders.setActiveFolder(null);
-    setActiveTab(tab)
+    setActiveTab(tab);
   };
 });
 
@@ -180,13 +198,13 @@ export function drawPageContent() {
 
 function getFolderTasks() {
   const tasks = folders.getActiveFolder().getTasks();
-  const orderedTasks = sortTaskByDueDate(tasks);
+  const orderedTasks = sortTasks(tasks);
   return orderedTasks;
 }
 
 function getAllTasks() {
   const allTasks = folders.getAllTasks();
-  const orderedTasks = sortTaskByDueDate(allTasks);
+  const orderedTasks = sortTasks(allTasks);
   return orderedTasks;
 }
 
@@ -195,7 +213,7 @@ function getTodayTasks() {
 
   const today = new Date().toISOString().split('T')[0];
 
-  const filteredTasks = allTasks.filter(task => task.dueDate == today);
+  const filteredTasks = allTasks.filter((task) => task.dueDate == today);
   return filteredTasks;
 }
 
@@ -210,7 +228,7 @@ function getWeekTasks() {
   today = convertDateToISO(today);
   in7days = convertDateToISO(in7days);
 
-  const filteredTasks = allTasks.filter(task => {
+  const filteredTasks = allTasks.filter((task) => {
     return task.dueDate >= today && task.dueDate <= in7days;
   });
 
@@ -262,11 +280,11 @@ function toggleMenu() {
   sidebar.classList.toggle('open');
 
   if (sidebar.classList.contains('open')) {
-    document.querySelectorAll('.tab').forEach(tab => {
+    document.querySelectorAll('.tab').forEach((tab) => {
       tab.addEventListener('click', closeMenu);
     });
   } else {
-    document.querySelectorAll('.tab').forEach(tab => {
+    document.querySelectorAll('.tab').forEach((tab) => {
       tab.removeEventListener('click', closeMenu);
     });
   }
