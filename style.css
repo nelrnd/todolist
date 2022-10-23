@@ -177,17 +177,17 @@ button {
   color: white;
   background-color: var(--green);
 }
-.task:has(.task-priority.high) {
+.task.high-priority {
   border-bottom-color: var(--red);
 }
-.task:has(.task-priority.medium) {
+.task.medium-priority {
   border-bottom-color: var(--yellow);
 }
-.task:has(.task-priority.low) {
+.task.low-priority {
   border-bottom-color: var(--green);
 }
-.task:has(.task-checkbox:checked) {
-  border-bottom-color: #d9d9d9;
+.task.checked {
+  border-bottom-color: #d9d9d9 !important;
 }
 
 .task .task-title::after {
@@ -497,7 +497,15 @@ button {
   }
 
   .modal {
-    width: 100%;
+    width: 90vw;
+    padding: 16px;
+  }
+
+  input[type='text'],
+  textarea {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
   }
 
   .task {
@@ -506,6 +514,10 @@ button {
 
   .task-top {
     gap: 8px;
+  }
+
+  .task-extend {
+    padding-left: calc(24px + 8px);
   }
 
   .task .task-title::after {

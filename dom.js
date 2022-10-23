@@ -28,7 +28,10 @@ export function createTaskElem(task) {
   removeButton.classList.add('task-btn');
 
   checkbox.type = 'checkbox';
-  if (task.isDone) checkbox.checked = 'checked';
+  if (task.isDone) {
+    checkbox.checked = 'checked';
+    taskElem.classList.add('checked');
+  }
 
   title.textContent = task.title;
   description.textContent = task.description;
@@ -37,14 +40,17 @@ export function createTaskElem(task) {
     case '2':
       priority.textContent = 'High Priority';
       priority.classList.add('high');
+      taskElem.classList.add('high-priority');
       break;
     case '1':
       priority.textContent = 'Medium Priority';
       priority.classList.add('medium');
+      taskElem.classList.add('medium-priority');
       break;
     case '0':
       priority.textContent = 'Low Priority';
       priority.classList.add('low');
+      taskElem.classList.add('low-priority');
       break;
     default:
       break;
@@ -58,7 +64,10 @@ export function createTaskElem(task) {
   removeIcon.alt = 'trash';
   removeButton.append(removeIcon);
 
-  checkbox.onchange = () => task.switchIsDone();
+  checkbox.onchange = () => {
+    task.switchIsDone();
+    taskElem.classList.toggle('checked');
+  };
   titleWrapper.onclick = () => extendTaskElem(taskElem);
   editButton.onclick = () => setupModal('task', task);
   removeButton.onclick = () => {
